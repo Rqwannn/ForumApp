@@ -32,5 +32,5 @@ Route::get('/test', function () {
     ], 200);
 });
 
-Route::post('register', [AuthenticationController::class, 'register']);
-Route::post('login', [AuthenticationController::class, 'login']);
+Route::post('/register', [AuthenticationController::class, 'register']);
+Route::post('/login', [AuthenticationController::class, 'login']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Feed;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
 use App\Models\Comment;
 use App\Models\Feed;
 use App\Models\Like;
