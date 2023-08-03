@@ -3,63 +3,91 @@
 namespace App\Http\Controllers\Feed;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
+use App\Models\Feed;
+use App\Models\Like;
 use Illuminate\Http\Request;
 
 class FeedController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $feeds = Feed::with('user')->latest()->get();
+        return response([
+            'feeds' => $feeds
+        ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(PostRequest $request)
     {
-        //
+        $request->validated();
+
+        Feed::created([
+            'user_id' => auth()->id(),
+            'content' => $request->content
+        ]);
+
+        return response([
+            'message' => 'success',
+        ], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function likePost($feed_id)
     {
-        //
+        // select feed with feed_id
+        $feed = Feed::whereId($feed_id)->first();
+
+        if (!$feed) {
+            return response([
+                'message' => '404 Not found'
+            ], 500);
+        }
+
+        // Unlike post
+        $unlike_post = Like::where('user_id', auth()->id())->where('feed_id', $feed_id)->delete();
+        if ($unlike_post) {
+            return response([
+                'message' => 'Unliked'
+            ], 200);
+        }
+
+        // Like post
+        $like_post = Like::create([
+            'user_id' => auth()->id(),
+            'feed_id' => $feed_id
+        ]);
+        if ($like_post) {
+            return response([
+                'message' => 'liked'
+            ], 200);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function comment(Request $request, $feed_id)
     {
-        //
+
+        $request->validate([
+            'body' => 'required'
+        ]);
+
+        $comment = Comment::create([
+            'user_id' => auth()->id(),
+            'feed_id' => $feed_id,
+            'body' => $request->body
+        ]);
+
+        return response([
+            'message' => 'success'
+        ], 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function getComments($feed_id)
     {
-        //
-    }
+        $comments = Comment::with('feed')->with('user')->whereFeedId($feed_id)->latest()->get();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response([
+            'comments' => $comments
+        ], 200);
     }
 }
