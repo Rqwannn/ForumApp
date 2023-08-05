@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forum_app/controllers/authentication.dart';
 import 'package:forum_app/views/register.dart';
 import 'package:forum_app/views/widgets/input_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,8 +18,8 @@ class _LoginState extends State<Login> {
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // final AuthenticationController _authenticationController =
-  //     Get.put(AuthenticationController());
+  final AuthenticationController _authenticationController =
+      Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,29 +68,23 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   onPressed: () async {
-                    // await _authenticationController.login(
-                    //   username: _usernameController.text.trim(),
-                    //   password: _passwordController.text.trim(),
-                    // );
+                    await _authenticationController.login(
+                      username: _usernameController.text.trim(),
+                      password: _passwordController.text.trim(),
+                    );
                   },
-                  // child: Obx(() {
-                  //   return _authenticationController.isLoading.value
-                  //     ? const CircularProgressIndicator(
-                  //         color: Colors.white,
-                  //       )
-                  //     : Text(
-                  //         'Login',
-                  //         style: GoogleFonts.poppins(
-                  //           fontSize: size * 0.040,
-                  //         ),
-                  //       );
-                  // }),
-                  child: Text(
-                      'Login',
-                      style: GoogleFonts.poppins(
-                        fontSize: size * 0.040,
-                      ),
-                    ),
+                  child: Obx(() {
+                    return _authenticationController.isLoading.value
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(
+                          'Login',
+                          style: GoogleFonts.poppins(
+                            fontSize: size * 0.040,
+                          ),
+                        );
+                  }),
                 ),
                 const SizedBox(
                   height: 20,

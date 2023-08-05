@@ -28,7 +28,7 @@ class AuthenticationController extends Controller
         return response([
             'user' => $user,
             'token' => $token
-        ], 201);
+        ], 200);
     }
 
     public function login(LoginRequest $request)

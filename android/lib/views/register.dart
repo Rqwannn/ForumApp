@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forum_app/controllers/authentication.dart';
 import 'package:forum_app/views/login.dart';
 import 'package:get/get.dart';
 import './widgets/input_widget.dart';
@@ -17,8 +18,8 @@ class _RegisterState extends State<Register> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   
-  // final AuthenticationController _authenticationController =
-  //     Get.put(AuthenticationController());
+  final AuthenticationController _authenticationController =
+      Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {
@@ -85,33 +86,27 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 onPressed: () async {
-                  // await _authenticationController.register(
-                  //   name: _nameController.text.trim(),
-                  //   username: _usernameController.text.trim(),
-                  //   email: _emailController.text.trim(),
-                  //   password: _passwordController.text.trim(),
-                  // );
+                  await _authenticationController.register(
+                    name: _nameController.text.trim(),
+                    username: _usernameController.text.trim(),
+                    email: _emailController.text.trim(),
+                    password: _passwordController.text.trim(),
+                  );
                 },
-                // child: Obx(() {
-                //   return _authenticationController.isLoading.value
-                //       ? const Center(
-                //           child: CircularProgressIndicator(
-                //             color: Colors.white,
-                //           ),
-                //         )
-                //       : Text(
-                //           'Register',
-                //           style: GoogleFonts.poppins(
-                //             fontSize: size * 0.040,
-                //           ),
-                //         );
-                // }),
-                child: Text(
-                  'Register',
-                  style: GoogleFonts.poppins(
-                    fontSize: size * 0.040,
-                  ),
-                ),
+                child: Obx(() {
+                  return _authenticationController.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          'Register',
+                          style: GoogleFonts.poppins(
+                            fontSize: size * 0.040,
+                          ),
+                        );
+                }),
               ),
               const SizedBox(
                 height: 20,
