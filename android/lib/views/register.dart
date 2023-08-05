@@ -78,6 +78,8 @@ class _RegisterState extends State<Register> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  splashFactory: NoSplash.splashFactory,
+                  shadowColor: Colors.transparent,
                   backgroundColor: Colors.black,
                   elevation: 0,
                   padding: const EdgeInsets.symmetric(

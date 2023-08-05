@@ -24,8 +24,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
-
-
+    
     return Scaffold(
       body: Center(
         child: Padding(
